@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabulator Nested Data Table</title>
+    <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .card {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .card-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-button i {
+            margin-right: 8px;
+        }
+
+        .card-button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            height: 60px;
+            resize: none;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-group button {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .button-group button:hover {
+            background-color: #d4d4d4;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            max-height: 60%;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .page-footer {
+            height: 45px;
+            background-color: #ffffff;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .tabulator-print-header, .tabulator-print-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <button class="card-button" id="showBillsButton">
+                <i class="fas fa-file-invoice-dollar"></i> Show Bills
+            </button>
+        </div>
+        <h2>Miscellaneous Bill</h2>
+        <div class="form-group">
+            <label for="spendType">Spend Type</label>
+            <input type="text" id="spendType" name="spendType">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" name="amount">
+        </div>
+        <div class="button-group">
+            <button type="submit">Save</button>
+            <button type="button">Cancel</button>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div>
+                <button id="print-table">Print Table</button>
+            </div>
+            <div id="example-table"></div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <p class="mb-0">Copyright © 2024. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/tabulator-tables@5.2.7/dist/js/tabulator.min.js"></script>
+    <script>
+         var tableData = [
+            { slno: 1, username: "JohnDoe", spendType: "Food", description: "Lunch at restaurant", money: 25.00 },
+            { slno: 2, username: "JaneSmith", spendType: "Travel", description: "Taxi fare", money: 15.00 },
+            { slno: 3, username: "JohnDoe", spendType: "Entertainment", description: "Movie ticket", money: 12.00 },
+            { slno: 4, username: "JaneSmith", spendType: "Food", description: "Dinner at restaurant", money: 30.00 },
+            { slno: 5, username: "JohnDoe", spendType: "Food", description: "Lunch at restaurant", money: 25.00 } // Duplicate content
+        ];
+        // Build Tabulator
+        var table = new Tabulator("#example-table", {
+            height: "311px",
+            layout: "fitColumns",
+            printAsHtml: true,
+            printHeader: "<h1>Example Table Header</h1>",
+            printFooter: "<h2>Example Table Footer</h2>",
+            columns: [
+                { title: "Sl No", field: "slno", width: 100, editor: "input" },
+                { title: "Username", field: "username", width: 200, editor: "input" },
+                { title: "Spend Type", field: "spendType", width: 200, editor: "input" },
+                { title: "Description", field: "description", editor: "textarea" },
+                { title: "Money", field: "money", hozAlign: "right", editor: "input" }
+            ],
+            data:tableData,
+        });
+
+        // Print button
+        document.getElementById("print-table").addEventListener("click", function () {
+            table.print(false, true);
+        });
+
+        // Modal logic
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("showBillsButton");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
