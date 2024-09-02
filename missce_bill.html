@@ -10,236 +10,726 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f0f0f0;
         }
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 2px solid black;
-            border-radius: 8px;
-            background-color: #fff;
+        /* Table container and main table styling */
+        .table-container {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
         }
 
-        .card {
-            position: relative;
-            margin-bottom: 20px;
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
         }
 
-        .card-button {
+        .main-table th, .main-table td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .main-table th {
+            background-color: #f4f4f4;
+        }
+
+        .toggle-button {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #007bff;
+        }
+
+        .toggle-button:hover {
+            color: #0056b3;
+        }
+
+        .action-button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 10px;
             cursor: pointer;
-            border-radius: 5px;
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            display: flex;
-            align-items: center;
         }
 
-        .card-button i {
-            margin-right: 8px;
-        }
-
-        .card-button:hover {
+        .action-button:hover {
             background-color: #0056b3;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        .sortable {
+            cursor: pointer;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .sorted-asc::after {
+            content: '▲';
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+        .sorted-desc::after {
+            content: '▼';
         }
 
-        .form-group input[type="text"],
-        .form-group textarea,
-        .form-group input[type="number"] {
-            width: 100%;
-            padding: 8px;
+        /* Style for search input fields */
+        th input[type="text"] {
+            width: 8%;
+            padding: 5px;
+            margin-top: 5px;
             box-sizing: border-box;
+            border-radius: 4px;
             border: 1px solid #ccc;
-            border-radius: 4px;
         }
 
-        .form-group textarea {
-            height: 60px;
-            resize: none;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .button-group button {
-            width: 48%;
-            padding: 10px;
-            border: 1px solid #000;
-            border-radius: 4px;
-            background-color: #e0e0e0;
-            cursor: pointer;
-        }
-
-        .button-group button:hover {
-            background-color: #d4d4d4;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            max-height: 60%;
-            overflow-y: auto;
-        }
-
-        .close {
+        th input[type="text"]::placeholder {
             color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
         }
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        /* Specific styling for Tabulator table */
+        #example-table {
+            margin-top: 20px;
         }
 
-        .page-footer {
-            height: 45px;
-            background-color: #ffffff;
-            text-align: center;
+        .tabulator-header {
+            background-color: #f4f4f4;
+        }
+
+        .tabulator-row {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tabulator-cell {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .tabulator-row .tabulator-cell {
+            background-color: #fff;
+        }
+
+        .tabulator-row:hover .tabulator-cell {
+            background-color: #f0f0f0;
+        }
+
+        .tabulator-row .tabulator-cell input[type="text"] {
             width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            padding: 5px;
+            margin: 0;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
         }
 
-        .tabulator-print-header, .tabulator-print-footer {
-            text-align: center;
+        .sub-table-container {
+            display: none; /* Hide sub-table initially */
+            padding: 10px;
+            width: 90%;
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            margin: 10px 40px;
         }
+        
+
+        .toggle-icon {
+            cursor: pointer;
+            font-size: 18px;
+            color: #007bff;
+            margin-left: 10px;
+        }
+
+        .toggle-icon:hover {
+            color: #0056b3;
+        }
+
+        .platform-logo {
+        width: 100px;
+        height: 60px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+    button{
+        margin-left: 25px;
+    }
+    .accept-btn{
+        background-color: #049e04;
+        color: white;
+        border-radius: 4px;
+        border: 1px solid #00ff00;
+        transition: transform 0.3s ease;
+    }
+    .accept-btn:hover{
+        background-color: #059805;
+        transform: scale(1.1); /* Zoom in */
+    }
+    .start-process-btn{
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        border: 1px solid #007bff;
+        transition: transform 0.3s ease;
+        margin-left: 20px;
+    }
+    .start-process-btn:hover{
+        background-color: #0056b3;
+        transform: scale(1.1); /* Zoom in */
+    }
+    .complete-btn{
+        background-color: #ffdd00;
+        color: white;
+        border-radius: 4px;
+        border: 1px solid #ffdd00;
+        transition: transform 0.3s ease;
+        margin-left: 35px;
+    }
+    .complete-btn:hover{
+        background-color: #786802;
+        transform: scale(1.1);
+    }
+    .reject-btn{
+        background-color: #fc4a4a;
+        color: white;
+        border-radius: 4px;
+        border: 1px solid #ffdd00;
+        transition: transform 0.3s ease;
+        margin-left: 20px;
+    }
+    .reject-btn:hover{
+        background-color: #f53621;
+        transform: scale(1.1);
+    }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <button class="card-button" id="showBillsButton">
-                <i class="fas fa-file-invoice-dollar"></i> Show Bills
-            </button>
-        </div>
-        <h2>Miscellaneous Bill</h2>
-        <div class="form-group">
-            <label for="spendType">Spend Type</label>
-            <input type="text" id="spendType" name="spendType">
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="amount">Amount</label>
-            <input type="number" id="amount" name="amount">
-        </div>
-        <div class="button-group">
-            <button type="submit">Save</button>
-            <button type="button">Cancel</button>
-        </div>
-    </div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div>
-                <button id="print-table">Print Table</button>
-            </div>
-            <div id="example-table"></div>
-        </div>
-    </div>
 
-    <footer class="page-footer">
-        <p class="mb-0">Copyright © 2024. All rights reserved.</p>
-    </footer>
+    <div id="example-table"></div>
 
-    <script src="https://unpkg.com/tabulator-tables@5.2.7/dist/js/tabulator.min.js"></script>
+    <script src="https://unpkg.com/tabulator-tables@5.4.4/dist/js/tabulator.min.js"></script>
     <script>
-         var tableData = [
-            { slno: 1, username: "JohnDoe", spendType: "Food", description: "Lunch at restaurant", money: 25.00 },
-            { slno: 2, username: "JaneSmith", spendType: "Travel", description: "Taxi fare", money: 15.00 },
-            { slno: 3, username: "JohnDoe", spendType: "Entertainment", description: "Movie ticket", money: 12.00 },
-            { slno: 4, username: "JaneSmith", spendType: "Food", description: "Dinner at restaurant", money: 30.00 },
-            { slno: 5, username: "JohnDoe", spendType: "Food", description: "Lunch at restaurant", money: 25.00 } // Duplicate content
-        ];
-        // Build Tabulator
-        var table = new Tabulator("#example-table", {
-            height: "311px",
-            layout: "fitColumns",
-            printAsHtml: true,
-            printHeader: "<h1>Example Table Header</h1>",
-            printFooter: "<h2>Example Table Footer</h2>",
-            columns: [
-                { title: "Sl No", field: "slno", width: 100, editor: "input" },
-                { title: "Username", field: "username", width: 200, editor: "input" },
-                { title: "Spend Type", field: "spendType", width: 200, editor: "input" },
-                { title: "Description", field: "description", editor: "textarea" },
-                { title: "Money", field: "money", hozAlign: "right", editor: "input" }
-            ],
-            data:tableData,
-        });
-
-        // Print button
-        document.getElementById("print-table").addEventListener("click", function () {
-            table.print(false, true);
-        });
-
-        // Modal logic
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("showBillsButton");
-        var span = document.getElementsByClassName("close")[0];
-
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        // Define the table data with nested structure
+        const orders = [
+    {
+        orderId: 5321,
+        customerName: "Customer Name",
+        waiterName: "vengababu",
+        time: "12:30 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Chicken Haleem",
+                quantity: 2,
+                status: "In-progress",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
             }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Swiggy",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Zomato",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    }
+    ,{
+        orderId: 5321,
+        customerName: "Customer Name",
+        waiterName: "vengababu",
+        time: "12:30 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Chicken Haleem",
+                quantity: 2,
+                status: "In-progress",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Swiggy",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Zomato",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    }
+    ,{
+        orderId: 5321,
+        customerName: "Customer Name",
+        waiterName: "vengababu",
+        time: "12:30 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Chicken Haleem",
+                quantity: 2,
+                status: "In-progress",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Swiggy",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Zomato",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    }
+    ,{
+        orderId: 5321,
+        customerName: "Customer Name",
+        waiterName: "vengababu",
+        time: "12:30 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Chicken Haleem",
+                quantity: 2,
+                status: "In-progress",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Swiggy",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    },
+    {
+        orderId: 5322,
+        customerName: "Another Customer",
+        platform: "Zomato",
+        time: "1:00 PM",
+        status: {
+            created:true,
+            in_progress:true,
+            Reject:true
+        },
+        manage: {
+            check: true,
+            cross: true
+        },
+        items: [
+            {
+                itemName: "Mutton Biryani",
+                quantity: 1,
+                status: "Pending",
+                manage:{
+                    check:true,
+                    cross:true,
+                }
+            }
+        ]
+    }
+];
+ // Define the main table with pagination and dataTree configuration
+ var table = new Tabulator("#example-table", {
+    height: "515px",
+    layout: "fitColumns",
+    columnDefaults: {
+        resizable: true,
+    },
+    data: orders,
+    columns: [
+        {
+            title: "",
+            width: 30,
+            formatter: function (cell, formatterParams, onRendered) {
+                return "<i class='fas fa-plus toggle-icon' title='Show Details'></i>";
+            },
+            cellClick: function (e, cell) {
+                var row = cell.getRow();
+                var subTableContainer = row.getElement().querySelector('.sub-table-container');
+                var icon = cell.getElement().querySelector('.toggle-icon');
+
+                if (subTableContainer.style.display === "none") {
+                    subTableContainer.style.display = "block";
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                    icon.setAttribute('title', 'Hide Details');
+                } else {
+                    subTableContainer.style.display = "none";
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                    icon.setAttribute('title', 'Show Details');
+                }
+            }
+        },
+        { title: "orderId", field: "orderId", headerFilter: "input" },
+        { title: "customerName", field: "customerName", headerFilter: "input" },
+        {
+            title: "Platform/Waiter",
+            field: "platform",
+            formatter: function (cell, formatterParams) {
+                var platform = cell.getValue();
+                var platformContent = platform;
+
+                if (platform === "Swiggy") {
+                    platformContent = "<img src='swiggy.png' alt='Swiggy' class='platform-logo'> Swiggy";
+                } else if (platform === "Zomato") {
+                    platformContent = "<img src='zomato.png' alt='Zomato' class='platform-logo'> Zomato";
+                } else if (cell.getRow().getData().waiterName) {
+                    platformContent = cell.getRow().getData().waiterName;
+                }
+
+                return platformContent;
+            }
+        },
+        { title: "time", field: "time" },
+        {
+            title: "status",
+            field: "status",
+            formatter: function (cell, formatterParams) {
+                var status = cell.getValue();
+                var statusText = "";
+
+                if (status.created) {
+                    statusText = "Created";
+                    statusColor="green"
+                    
+                } else if (status.in_progress) {
+                    statusText = "In-progress";
+                    statusColor="orange"
+                } else if (status.completed) {
+                    statusText = "Completed";
+                    statusColor="green"
+                }
+                else if(status.accepted){
+                    statusText="Accepted";
+                    statusColor="blue"
+                }
+                else if(status.rejected){
+                    statusText="Rejected";
+                    statusColor="red"
+                }
+
+                return "<span style='color:" + statusColor + ";font-weight:bold;margin-left:50px'>" + statusText + "</span>";
+            }
+        },
+        {
+            title: "manage",
+            field: "manage",
+            formatter: function (cell, formatterParams) {
+                var value = cell.getValue();
+                var buttons = "";
+
+                if (value.check) {
+                    buttons += "<button class='accept-btn' >Accept</button>";
+                }
+
+                if (value.cross) {
+                    buttons += "<button class='reject-btn' >Reject</button>";
+                }
+
+                if (value.start_process) {
+                    buttons += "<button class='start-process-btn'>Start Process</button>";
+                }
+
+                if (value.complete) {
+                    buttons += "<button class='complete-btn'>Complete</button>";
+                }
+
+                return buttons;
+            },
+            cellClick: function (e, cell) {
+                var row = cell.getRow();
+                var data = row.getData();
+                var status = data.status;
+                var manage = data.manage;
+
+                if (e.target.classList.contains('accept-btn') && status.created) {
+                    // Set 'start_process' to true and others to false
+                    manage.check = false;
+                    manage.cross = false;
+                    manage.start_process = true;
+                    status.created = false;
+                    status.accepted=true;
+                    status.in_progress = false;
+                } else if (e.target.classList.contains('start-process-btn') && !status.in_progress && !status.completed) {
+                    // Set 'in_progress' to true and 'start_process' button to false, 'complete' button to true
+                    manage.start_process = false;
+                    manage.complete = true;
+                    status.in_progress = true;
+                } else if (e.target.classList.contains('complete-btn') && status.in_progress) {
+                    // Set 'completed' to true, disable all buttons
+                    manage.complete = false;
+                    status.in_progress = false;
+                    status.completed = true;
+                } else if (e.target.classList.contains('reject-btn')) {
+                    // Set 'Reject' to true and disable all buttons
+                    manage.check = false;
+                    manage.cross = false;
+                    manage.start_process = false;
+                    manage.complete = false;
+                    status.created = false;
+                    status.in_progress = false;
+                    status.completed = false;
+                    status.rejected=true
+                }
+
+                // Update the row to reflect the changes
+                row.update({ status: status, manage: manage });
+                cell.getTable().redraw(true); // Force UI redraw
+            },
+            headerSort: false
         }
+    ],
+
+    rowFormatter: function (row) {
+        // Create and style holder elements
+        var holderEl = document.createElement("div");
+        var tableEl = document.createElement("div");
+
+        holderEl.classList.add('sub-table-container');
+        tableEl.style.border = "1px solid #333";
+
+        holderEl.appendChild(tableEl);
+
+        row.getElement().appendChild(holderEl);
+
+        var subTable = new Tabulator(tableEl, {
+            layout: "fitColumns",
+            data: row.getData().items,
+            columns: [
+                { title: "Item Name", field: "itemName" },
+                { title: "Quantity", field: "quantity" },
+                { title: "status", field: "status" },
+                {
+                    title: "manage",
+                    field: "manage",
+                    formatter: function (cell, formatterParams) {
+                        var value = cell.getValue();
+                        var buttons = "";
+
+                        if (value.check) {
+                            buttons +="<button class='accept-btn' >Accept</button>";;
+                        }
+
+                        if (value.cross) {
+                            buttons += "<button class='reject-btn'>Reject</button>";;
+                        }
+
+                        return buttons;
+                    },
+                    
+                    headerSort: false
+                }
+            ]
+        });
+    }
+});
+        document.getElementById('search-customer').addEventListener('input', function() {
+            table.setFilter("customerName", "like", this.value);
+        });
+        
+        document.getElementById('search-phone').addEventListener('input', function() {
+            table.setFilter("phoneNumber", "like", this.value);
+        });
+        
+        document.getElementById('search-billDate').addEventListener('input', function() {
+            table.setFilter("billDate", "like", this.value);
+        });
     </script>
 </body>
 </html>
